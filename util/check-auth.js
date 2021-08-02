@@ -2,7 +2,7 @@ const {AuthenticationError} =require('apollo-server')
 const jwt=require('jsonwebtoken')
 const { JWT_SECRET } = require('../config')
 
-module.export=(context)=> {
+module.exports=(context)=> {
     const authHeader = context.req.headers.authorization
     if(authHeader) {
         const token = authHeader.split('Bearer ')[1]
