@@ -20,12 +20,12 @@ module.exports = {
             if(!valid) {
                 throw new UserInputError("Errors",{errors})
             }
-            const user= await User.find({username})
+            const user= await User.findOne({username})
             if(!user) {
                 errors.general="Invalid username"
                 throw new UserInputError("user not found", errors)
             } 
-            match= await bcrypt.compare(password, user.password)
+            const match= await bcrypt.compare(password, user.password)
             if(!match) {
                 errors.general+"invalid password for username" + username;
                 throw new UserInputError("Password mismatch", errors)
