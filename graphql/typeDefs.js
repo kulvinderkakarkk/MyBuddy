@@ -6,8 +6,10 @@ module.exports=gql`
         username:String!,
         body: String!,
         likes: [Like]!,
-        comments:[Comment]!
-        createdAt: String!
+        comments:[Comment]!,
+        createdAt: String!,
+        likeCount:Int!,
+        commentCount:Int!
     }
 
     type Like {
@@ -20,6 +22,7 @@ module.exports=gql`
         id:ID!,
         username: String!,
         createdAt: String!
+        body: String!
     }
 
     type Query {
