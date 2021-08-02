@@ -1,20 +1,19 @@
-import {model, Schema} from 'mongoose'
-const {GraphQLDateTime}= require('graphql-iso-date')
+const {model, Schema} =require('mongoose')
 
 const postSchema = new Schema({
     body: String, 
     username: String,
-    createdAt: String,
+    createdAt: {type:Date, default: Date.now},
     likes: [
         {
             username: String,
-            createdAt:GraphQLDateTime
+            createdAt:{type:Date, default: Date.now}
         }
     ],
     comments: [
         {
             username: String,
-            createdAt:GraphQLDateTime,
+            createdAt:{type:Date, default: Date.now},
             body: String
         }
     ],

@@ -1,11 +1,10 @@
 const {model, Schema} = require("mongoose")
-const {GraphQLDateTime}=require("graphql-iso-date")
 
 const userSchema = new Schema({
     username: String,
     password: String,
     email: String,
-    createdAt: GraphQLDateTime
+    createdAt: {type:Date, default: Date.now}
 })
 
 module.exports=model('User',userSchema,'user');
