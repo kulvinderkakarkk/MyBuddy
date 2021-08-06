@@ -28,7 +28,7 @@ function PostForm() {
         
         <Form onSubmit={onSubmit}>
             <h2>Create a Post</h2>
-            <Form.Input fluid label='body' placeholder='body' name = "body" type="text" 
+            <Form.Input fluid label="What's on your mind?" placeholder="Description..." name = "body" type="text" 
               value={values.body} onChange={onChange}/>   
             <Form.Button>Post</Form.Button> 
         </Form>

@@ -1,4 +1,4 @@
-import { Menu, Segment } from 'semantic-ui-react'
+import { Menu, Header, Icon, Image  } from 'semantic-ui-react'
 import React, { useState, useContext } from 'react'
 import {Link} from "react-router-dom"
 import {AuthContext} from '../context/auth'
@@ -24,6 +24,10 @@ function MenuBar()  {
           />
           </Menu.Menu>
         </Menu>
+        <Header as='h3' icon textAlign='center'>
+        <Icon name='users' circular />
+        <Header.Content>MyBuddy</Header.Content>
+      </Header>
       </div>
     ):(
       <div>
@@ -52,6 +56,10 @@ function MenuBar()  {
             />
           </Menu.Menu>
         </Menu>
+        <Header as='h3' icon textAlign='center'>
+        <Icon name='users' circular />
+        <Header.Content>MyBuddy</Header.Content>
+      </Header>
       </div>
     ) 
     return menuBar
