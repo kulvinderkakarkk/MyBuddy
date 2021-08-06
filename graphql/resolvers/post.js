@@ -41,6 +41,7 @@ module.exports = {
             const deletePost= await Post.findById(postId);
             if(deletePost.username === user.username) {
                 await deletePost.delete()
+                return "Post deleted successfully"
             } else {
                 throw new AuthenticationError("Username not permitted to delete this post")
             }

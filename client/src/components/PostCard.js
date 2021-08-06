@@ -1,46 +1,49 @@
 import React from 'react'
-import { Card, Icon, Image, Button, Label } from 'semantic-ui-react'
+import { Button, Card, Image, Icon, Label  } from 'semantic-ui-react'
 import moment from 'moment'
-import { Link } from 'react-router-dom';
-
-function PostCard({post:{id, username, body, createdAt, likes, comments, likeCount, commentCount}}) {
+import {Link} from 'react-router-dom'
+import LikeButton from './LikeButton'
+import _ from './DeleteButton'
+import DeleteButton from './DeleteButton'
+import MyPopup from '../util/mypopup'
+function PostCard({user, post: {username, createdAt, body, id, likeCount, commentCount, likes}}) {
     return (
         <Card fluid>
-            <Image
-            style={{margin:"auto"}}
+      <Card.Content>
+        <MyPopup content={"I am " + username}>
+        <Image
+          floated='right'
           size='medium'
-          src='https://react.semantic-ui.com/images/avatar/large/molly.png'/>
-            
-            <Card.Content>
-            <Card.Header>{username}</Card.Header>
-            <Card.Meta>
-                <span className='date'>{moment(createdAt).fromNow(true)}</span>
-            </Card.Meta>
-            <Card.Description>
-                {body}
-            </Card.Description>
-            </Card.Content>
-            <Card.Content extra>
-            <div>
-                <Button as='div' labelPosition='right'>
-                <Button color='red' basic>
-                    <Icon name='heart' />
-                </Button>
-                <Label as='a' basic color='red' pointing='left'>
-                    {likeCount}
-                </Label>
-                </Button>
-                <Button as='div' labelPosition='right' as={Link} to={`/posts/${id}`}>
-                <Button basic color='blue'>
-                    <Icon name='fork' />
-                </Button>
-                <Label as='a' basic color='blue' pointing='left'>
-                    {commentCount}
-                </Label>
-                </Button>
-            </div>
-            </Card.Content>
-        </Card>
+          src='https://www.cnet.com/a/img/IQ1urIoTYAkhsFeTKmEU4B6zvEM=/940x0/2018/01/08/34a43a1b-d85a-4b85-bce1-74654d30a6c5/james-damore.jpg'
+        />
+        </MyPopup>
+        <Card.Header>{username}</Card.Header>
+        <Card.Meta as={Link} to={`/posts/${id}`}>{moment(createdAt).fromNow(true)}</Card.Meta>
+        <Card.Description>
+          {body}
+        </Card.Description>
+      </Card.Content>
+      <Card.Content extra>
+        <LikeButton user= {user} post={{id, likes,likeCount}}></LikeButton>
+        {user ?(<MyPopup content = "Add Comment"><Button as='div' labelPosition='right' as={Link} to={`/posts/${id}`}>
+        <Button basic color='blue'>
+            <Icon name='comments' />
+            {commentCount}
+        </Button>
+        </Button></MyPopup>):(<MyPopup content = "Login to add Comment"><Button as='div' labelPosition='right'>
+        <Button basic color='blue'>
+            <Icon name='comments' />
+            {commentCount}
+        </Button>
+        </Button></MyPopup>)}
+        
+        {(user && (user.username === username) && (
+           <DeleteButton postId={id} />
+          
+        ))}
+        
+      </Card.Content>
+    </Card>
     )
 }
 

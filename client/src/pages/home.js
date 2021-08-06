@@ -1,48 +1,41 @@
-import React from 'react'
-import { Grid} from 'semantic-ui-react'
-import gql from 'graphql-tag'
-import {useQuery} from '@apollo/react-hooks'
+import React, {useContext} from 'react'
+import { useQuery} from '@apollo/react-hooks'
+import {Fetch_POSTS_QUERY} from '../util/graphql'
+import { Grid, Transition } from 'semantic-ui-react'
+import PostCard from '../components/PostCard'
 import {ReactSpinner} from 'react-spinning-wheel';
 import 'react-spinning-wheel/dist/style.css';
-import PostCard from '../components/PostCard'
+import { useQueryWithStore } from 'react-admin';
+import PostForm from '../components/PostForm'
+import {AuthContext, AuthProvider} from '../context/auth'
 function Home() {
-    const {loading,data}=useQuery(QUERY_GET_POSTS);
+    var posts=null;
+    var {user} = useContext(AuthContext)
+    const {loading, data} = useQuery(Fetch_POSTS_QUERY)
     if(data) {
-        console.log("data is",data)
+       posts = data.getPosts
     }
     return (
-        <Grid columns='three'>
+    <Grid columns={3} divided >
         <Grid.Row>
-            {loading? <ReactSpinner />: (data.getPosts && data.getPosts.map(post=>(
-                <Grid.Column style={{marginBottom:20, marginTop:10}}>
-                <PostCard post={post} />
-                </Grid.Column>
-            )))}
+           {user && <PostForm></PostForm>}
+        </Grid.Row> 
+        <Grid.Row>
+            <h1> Recent Posts</h1>
         </Grid.Row>
-      </Grid>
+        <Grid.Row>
+        <Transition.Group>
+        {loading ? (<ReactSpinner />):(posts && posts.map(post => (
+            <Grid.Column key= {post.id} style={{marginBottom: 20}}>
+                <PostCard user={user} post = {post} />
+            </Grid.Column>
+        )))}
+        </Transition.Group>
+        </Grid.Row>
+    </Grid>
     )
 }
 
-const QUERY_GET_POSTS=gql`
-    {getPosts {
-        id
-        body
-        username
-        createdAt
-        likes {
-            id
-            username
-            createdAt
-        }
-        comments {
-            id
-            body
-            username
-            createdAt
-        }
-        likeCount
-        commentCount
-    }}
-`
+
 
 export default Home;
